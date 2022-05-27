@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import logo from '../assets/_img/logoLogin.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-export default function LoginScreen() {
+export default function LoginScreen({ setToken }) {
     return (
         <Container>
             <img src={logo} />
-            <LoginForm />
+            <LoginForm setToken={setToken}/>
         </Container>
     );
 }
@@ -20,25 +21,60 @@ const Container = styled.div`
     height: 100vh;
 `
 
-function LoginForm() {
+function LoginForm({ setToken }) {
+    const navigate = useNavigate();
+
+    function login(event) {
+        event.preventDefault();
+        const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login';
+        const promise = axios.post(URL, loginData);
+
+        promise.then((res) => {
+            alert("Login Efetuado!");
+            const { token } = res.data;
+            setToken(token);
+            navigate('/hoje');
+        })
+
+        promise.catch((err) => {
+            alert(`Vish deu ruim :( Cadastres-se para logar! ${err.message}`);
+        })
+    }
+
+    const [loginData, setLoginData] = useState({
+        email: "",
+        password: ""
+    });
+
+    const {email, password} = loginData; 
+
+    function handleForm(e) {
+        setLoginData({
+            ...loginData,
+            [e.target.name]: e.target.value,
+        })
+    }
     return (
-        <LoginStyle>
+        <LoginStyle onSubmit={login}>
             <input
                 type="email"
                 id='email'
-                placeholder='  email'
+                placeholder=' email'
                 required
+                name='email'
+                onChange={handleForm}
+                value={email}
             />
             <input
                 type="password"
                 id='password'
-                placeholder='  senha'
+                placeholder=' senha'
                 required
+                name='password'
+                onChange={handleForm}
+                value={password}
             />
-
-            <Link to={'/hoje'}>
-                <button>Entrar</button>
-            </Link>
+            <button type='submit'>Entrar</button>
 
             <Link to={'/cadastro'}>
                 <p>Não tem uma conta? Cadastre-se!</p>

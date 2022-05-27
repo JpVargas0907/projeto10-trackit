@@ -29,11 +29,11 @@ function RegisterForm() {
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up';
         const promise = axios.post(URL, registerData);
 
-        promise.then((res) => {
+        promise.then(() => {
             alert("Cadastro efetuado!");
         })
 
-        promise.catch((res) => {
+        promise.catch(() => {
             alert("Vish deu ruim :( Tente novamente!");
         })
     }
