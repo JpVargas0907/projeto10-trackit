@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import logo from '../assets/_img/logoLogin.png';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
-export default function LoginScreen({ setToken }) {
+export default function LoginScreen() {
     return (
         <Container>
             <img src={logo} />
-            <LoginForm setToken={setToken}/>
+            <LoginForm />
         </Container>
     );
 }
@@ -21,8 +23,9 @@ const Container = styled.div`
     height: 100vh;
 `
 
-function LoginForm({ setToken }) {
+function LoginForm() {
     const navigate = useNavigate();
+    const { token, setToken } = useContext(UserContext);
 
     function login(event) {
         event.preventDefault();
@@ -31,8 +34,7 @@ function LoginForm({ setToken }) {
 
         promise.then((res) => {
             alert("Login Efetuado!");
-            const { token } = res.data;
-            setToken(token);
+            setToken(res.data.token);
             navigate('/hoje');
         })
 
