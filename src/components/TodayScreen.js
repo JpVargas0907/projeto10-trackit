@@ -1,15 +1,21 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Menu from "./Menu";
 import Top from "./Top";
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
+import dayjs from "dayjs";
 
 export default function TodayScreen() {
     const { token } = useContext(UserContext);
-    const { arrayHabits, setArrayHabits } = useState([]);
-    console.log(arrayHabits);
+    const { arrayHabits, setArrayHabits } = useState(["1", "2", "3", "4"]);
+    const now = dayjs();
+    let weekday = "";
+    const arrayTest = ["1", "2", "3", "4"];
+
+
+    console.log(arrayTest);
 
     useEffect(() => {
         const config = {
@@ -23,37 +29,51 @@ export default function TodayScreen() {
 
         promise.then((res) => {
             const { data } = res;
-            console.log(data);
-            setArrayHabits(data);
+            // setArrayHabits([...arrayHabits , data]);
         });
 
         promise.catch((err) => {
             alert(err.message);
         });
+    }, []);
 
-        function buildHabitsList(){
-            if (arrayHabits.length > 0) {
-                return (
-                    arrayHabits.map((habit, index) => {
-                    <todayHabit key={index}/>
-                }))
-            } else {
-                return <p>CARREGANDO...</p>
-            }
+    function buildHabitsList() {
+        if (arrayTest.length > 0) {
+
+            return arrayTest.map((habit, index) => { return <TodayHabit key={index} id={habit} /> })
+        } else {
+            return <p>CARREGANDO...</p>
+        }
+    }
+
+    function showWeekday() {
+        switch (now.day()) {
+            case 1: weekday = "Domingo"
+                break;
+            case 2: weekday = "Segunda-Feira"
+                break;
+            case 3: weekday = "Terça-Feira"
+                break;
+            case 4: weekday = "Quarta-Feira"
+                break;
+            case 5: weekday = "Quinta-Feira"
+                break;
+            case 6: weekday = "Sexta-Feira"
+                break;
+            case 7: weekday = "Sábado"
         }
 
-        const todayHabit = buildHabitsList();
-
-    })
+        return weekday;
+    }
 
     return (
         <>
             <Top />
             <Content>
-                <h2>DIA - DATA</h2>
-                <h3>quantidade tarefas concluídas</h3>
+                <h2>{showWeekday()}, {now.date()}/{now.month()}</h2>
+                <h3>Quantidade de tarefas concluídas</h3>
                 <HabitsList>
-                    {todayHabit}
+                    {buildHabitsList()}
                 </HabitsList>
             </Content>
             <Menu />
@@ -63,43 +83,80 @@ export default function TodayScreen() {
 
 const Content = styled.div`
     width: 100vw;
-    margin-top: 90px;
-    margin-bottom: 120px;
+    height: 100vh;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    background: #E5E5E5;
     
     display: flex;
     flex-direction: column;
-    justify-content: center;
+
+    h2 {
+        font-weight: 400;
+        font-size: 22px;
+        color: #126BA5;
+
+        margin-left: 17px;
+        margin-top: 30px;
+    }
+
+    h3 {
+        font-weight: 400;
+        font-size: 18px;
+        color: #BABABA;
+
+        margin-left: 17px;
+        margin-bottom: 20px;
+    }
 `
 
 const HabitsList = styled.div`
-    width: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
-function todayHabit() {
+function TodayHabit() {
     return (
-        <habitBox>
+        <HabitBox>
             <Info>
                 <h2></h2>
                 <p></p>
                 <p></p>
             </Info>
-            <ion-icon name="checkmark-outline"></ion-icon>
-        </habitBox>
+            <CheckBox>
+                <ion-icon name="checkmark-outline"></ion-icon>
+            </CheckBox>
+        </HabitBox>
     );
 }
 
 const HabitBox = styled.div`
-    width: 340px;
+    position: relative;
+    width: 90%;
     height: 94px;
-    background: #FFFFFF;
+    margin-bottom: 10px;
     border-radius: 5px;
-    background-color: red;
+    background-color: #FFFFFF;
     display: flex;
     align-items: center;
-    justify-content: space-around;
 `
 
 const Info = styled.div`
     display: flex;
     flex-direction: column;
+`
+
+const CheckBox = styled.div`
+    position: absolute;
+    width: 69px;
+    height: 69px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 14px;
+
+    background: #EBEBEB;
+    border-radius: 5px;
 `

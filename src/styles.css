@@ -10,6 +10,7 @@
      */
     width: 90px;
     height: 90px;
+    margin-bottom: 30px;
     /*
      * This fixes a centering issue with CircularProgressbarWithChildren:
      * https://github.com/kevinsqi/react-circular-progressbar/issues/94

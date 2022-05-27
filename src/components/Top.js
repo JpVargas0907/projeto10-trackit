@@ -14,6 +14,7 @@ const TopStyle = styled.header`
     width: 100vw;
     height: 70px;
     position: fixed;
+    z-index: 1;
     top: 0;
     left: 0;
 
