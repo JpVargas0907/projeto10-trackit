@@ -1,11 +1,15 @@
 import Menu from "./Menu";
 import Top from "./Top";
 import styled from 'styled-components';
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
 export default function HistoricScreen() {
+    const { token, image } = useContext(UserContext);
+
     return (
         <>
-            <Top />
+            <Top image={image}/>
             <Content>
                 
             </Content>

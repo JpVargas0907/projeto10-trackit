@@ -8,7 +8,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 
 export default function TodayScreen() {
-    const { token } = useContext(UserContext);
+    const { token, image } = useContext(UserContext);
     const { arrayHabits, setArrayHabits } = useState(["1", "2", "3", "4"]);
     const now = dayjs();
     let weekday = "";
@@ -29,7 +29,7 @@ export default function TodayScreen() {
 
         promise.then((res) => {
             const { data } = res;
-            // setArrayHabits([...arrayHabits , data]);
+            setArrayHabits([...data]);
         });
 
         promise.catch((err) => {
@@ -68,7 +68,7 @@ export default function TodayScreen() {
 
     return (
         <>
-            <Top />
+            <Top image={image}/>
             <Content>
                 <h2>{showWeekday()}, {now.date()}/{now.month()}</h2>
                 <h3>Quantidade de tarefas concluídas</h3>

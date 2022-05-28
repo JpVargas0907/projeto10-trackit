@@ -25,7 +25,7 @@ const Container = styled.div`
 
 function LoginForm() {
     const navigate = useNavigate();
-    const { token, setToken } = useContext(UserContext);
+    const { token, setToken, setImage } = useContext(UserContext);
 
     function login(event) {
         event.preventDefault();
@@ -35,6 +35,7 @@ function LoginForm() {
         promise.then((res) => {
             alert("Login Efetuado!");
             setToken(res.data.token);
+            setImage(res.data.image);
             navigate('/hoje');
         })
 

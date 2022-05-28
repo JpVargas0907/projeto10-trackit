@@ -1,11 +1,13 @@
 import styled from "styled-components";
-import logo from "../assets/_img/logoMenu.png";
+import logo from "../assets/_img/logoMenu.png"
 
-export default function Top(){
+export default function Top(props){
+    const { image } = props;
+
     return(
         <TopStyle>
             <img src={logo}/>
-            <img className="perfil"/>
+            <img className="perfil" src={image} />
         </TopStyle>
     );
 }

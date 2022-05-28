@@ -72,6 +72,9 @@ const NewHabitForm = styled.form`
         border-radius: 5px;
         margin-bottom: 10px;
 
+        font-weight: 400;
+        font-size: 20px;
+        color: #666666;
     }
 `
 
@@ -110,7 +113,7 @@ const Buttons = styled.div`
 function Day(props) {
     const { id, day, days, setDays } = props;
     const [selected, setSelected] = useState(false);
-    
+
     function selectedDays(){
         if(!selected){
             setSelected(true);

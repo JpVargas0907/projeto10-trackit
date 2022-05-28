@@ -11,9 +11,10 @@ import HistoricScreen from "./HistoricScreen";
 
 function App() {
   const [token, setToken] = useState('');
+  const [image, setImage] = useState('');
 
   return (
-    <UserContext.Provider value={{token, setToken}}>
+    <UserContext.Provider value={{token, setToken, image, setImage}}>
       <BrowserRouter>
         <Routes>
           <Route path={"/"} element={<LoginScreen />} />

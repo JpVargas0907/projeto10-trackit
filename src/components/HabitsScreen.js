@@ -2,19 +2,43 @@ import Menu from "./Menu";
 import Top from "./Top";
 import styled from "styled-components";
 import NewHabitBox from './NewHabitBox';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HabitBox from "./HabitBox";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
+import axios from "axios";
 
 export default function HabitsScreen() {
+    const { token, image } = useContext(UserContext);
     const [NewHabitBoxStatus, setNewHabitBoxStatus] = useState(false);
     
     function openNewHabitBox(){
         setNewHabitBoxStatus(true);
     }
 
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+        const promise = axios.get(URL, config);
+
+        promise.then((res) => {
+            const { data } = res;
+            // setArrayHabits([...data]);
+        });
+
+        promise.catch((err) => {
+            alert(err.message);
+        });
+    }, []);
+
     return (
         <>
-            <Top />
+            <Top image={image}/>
             <Content>
                 <div className="new">
                     <h2>Meus hábitos</h2>
