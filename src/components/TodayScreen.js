@@ -90,22 +90,23 @@ const Content = styled.div`
     
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     h2 {
+        width: 90vw;
         font-weight: 400;
         font-size: 22px;
         color: #126BA5;
 
-        margin-left: 17px;
         margin-top: 30px;
     }
 
     h3 {
+        width: 90vw;
         font-weight: 400;
         font-size: 18px;
         color: #BABABA;
 
-        margin-left: 17px;
         margin-bottom: 20px;
     }
 `

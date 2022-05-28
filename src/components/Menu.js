@@ -28,6 +28,7 @@ const MenuStyle = styled.footer`
     justify-content: space-around;
     align-items: center;
     position: fixed;
+    z-index: 1;
     bottom: 0;
     left: 0;
     background-color: #FFFFFF;
