@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import logo from "../assets/_img/logoMenu.png"
+import logo from "../../assets/_img/logoMenu.png"
 
 export default function Top(props){
     const { image } = props;

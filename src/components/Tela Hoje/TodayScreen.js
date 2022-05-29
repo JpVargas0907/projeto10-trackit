@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Menu from "./Menu";
-import Top from "./Top";
+import Menu from "../Topo e Menu/Menu";
+import Top from "../Topo e Menu/Top";
 import { useContext } from "react";
-import UserContext from "../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 import axios from "axios";
 import dayjs from "dayjs";
+import TodayHabit from "./TodayHabit";
 
 export default function TodayScreen() {
-    const { token, image } = useContext(UserContext);
-    const { arrayHabits, setArrayHabits } = useState(["1", "2", "3", "4"]);
+    const { token, image, counter, setHabitsQuantity, calcPercentage } = useContext(UserContext);
+    const [habits, setHabits] = useState([]);
     const now = dayjs();
     let weekday = "";
-    const arrayTest = ["1", "2", "3", "4"];
-
-
-    console.log(arrayTest);
 
     useEffect(() => {
         const config = {
@@ -29,18 +26,21 @@ export default function TodayScreen() {
 
         promise.then((res) => {
             const { data } = res;
-            setArrayHabits([...data]);
+            setHabits([...data]);
         });
 
         promise.catch((err) => {
             alert(err.message);
         });
-    }, []);
+    }, [habits]);
 
     function buildHabitsList() {
-        if (arrayTest.length > 0) {
+        setHabitsQuantity(habits.length)
+        if (habits.length > 0) {
+            return habits.map((habit, index) => { 
+                const {id, name, done, currentSequence, highestSequence} = habit;
 
-            return arrayTest.map((habit, index) => { return <TodayHabit key={index} id={habit} /> })
+                return <TodayHabit key={index} id={id} name={name} done={done} currentSequence={currentSequence} highestSequence={highestSequence}/> })
         } else {
             return <p>CARREGANDO...</p>
         }
@@ -48,19 +48,19 @@ export default function TodayScreen() {
 
     function showWeekday() {
         switch (now.day()) {
-            case 1: weekday = "Domingo"
+            case 0: weekday = "Domingo"
                 break;
-            case 2: weekday = "Segunda-Feira"
+            case 1: weekday = "Segunda-Feira"
                 break;
-            case 3: weekday = "Terça-Feira"
+            case 2: weekday = "Terça-Feira"
                 break;
-            case 4: weekday = "Quarta-Feira"
+            case 3: weekday = "Quarta-Feira"
                 break;
-            case 5: weekday = "Quinta-Feira"
+            case 4: weekday = "Quinta-Feira"
                 break;
-            case 6: weekday = "Sexta-Feira"
+            case 5: weekday = "Sexta-Feira"
                 break;
-            case 7: weekday = "Sábado"
+            case 6: weekday = "Sábado"
         }
 
         return weekday;
@@ -71,7 +71,8 @@ export default function TodayScreen() {
             <Top image={image}/>
             <Content>
                 <h2>{showWeekday()}, {now.date()}/{now.month()}</h2>
-                <h3>Quantidade de tarefas concluídas</h3>
+                {counter === 0 ? <h3>Nenhum hábito concluído ainda</h3> : <h3>{calcPercentage()}% dos hábitos concluídos</h3>}
+                
                 <HabitsList>
                     {buildHabitsList()}
                 </HabitsList>
@@ -92,7 +93,7 @@ const Content = styled.div`
     flex-direction: column;
     align-items: center;
 
-    h2 {
+    > h2 {
         width: 90vw;
         font-weight: 400;
         font-size: 22px;
@@ -101,7 +102,7 @@ const Content = styled.div`
         margin-top: 30px;
     }
 
-    h3 {
+    > h3 {
         width: 90vw;
         font-weight: 400;
         font-size: 18px;
@@ -118,46 +119,3 @@ const HabitsList = styled.div`
     align-items: center;
 `
 
-function TodayHabit() {
-    return (
-        <HabitBox>
-            <Info>
-                <h2></h2>
-                <p></p>
-                <p></p>
-            </Info>
-            <CheckBox>
-                <ion-icon name="checkmark-outline"></ion-icon>
-            </CheckBox>
-        </HabitBox>
-    );
-}
-
-const HabitBox = styled.div`
-    position: relative;
-    width: 90%;
-    height: 94px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    background-color: #FFFFFF;
-    display: flex;
-    align-items: center;
-`
-
-const Info = styled.div`
-    display: flex;
-    flex-direction: column;
-`
-
-const CheckBox = styled.div`
-    position: absolute;
-    width: 69px;
-    height: 69px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    right: 14px;
-
-    background: #EBEBEB;
-    border-radius: 5px;
-`

@@ -11,6 +11,9 @@
     width: 90px;
     height: 90px;
     margin-bottom: 30px;
+    background: #52B6FF;
+    border-radius: 50%;
+    padding: 6px;
     /*
      * This fixes a centering issue with CircularProgressbarWithChildren:
      * https://github.com/kevinsqi/react-circular-progressbar/issues/94
@@ -19,19 +22,19 @@
   }
   
   .CircularProgressbar .CircularProgressbar-path {
-    stroke: #3e98c7;
+    stroke: #FFFFFF;
     stroke-linecap: round;
     transition: stroke-dashoffset 0.5s ease 0s;
   }
   
   .CircularProgressbar .CircularProgressbar-trail {
-    stroke: #d6d6d6;
+    stroke: #52B6FF;
     /* Used when trail is not full diameter, i.e. when props.circleRatio is set */
     stroke-linecap: round;
   }
   
   .CircularProgressbar .CircularProgressbar-text {
-    fill: #3e98c7;
+    fill: #FFFFFF;
     font-size: 20px;
     dominant-baseline: middle;
     text-anchor: middle;

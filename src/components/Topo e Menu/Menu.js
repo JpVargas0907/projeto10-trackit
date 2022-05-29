@@ -1,18 +1,22 @@
 import styled from "styled-components";
 import { CircularProgressbar } from 'react-circular-progressbar';
-import '../../src/styles.css';
+import "../../../src/styles.css";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 export default function Menu() {
-    const percentage = 90;
-
+    const { calcPercentage } = useContext(UserContext);
+    const percentage = calcPercentage();
+    const name = "Hoje";
+    
     return (
         <MenuStyle>
             <Link to={'/habitos'}>
                 <p>Hábitos</p>
             </Link>
             <Link to={'/hoje'}>
-                <CircularProgressbar value={percentage} text={`${percentage}`} />
+                <CircularProgressbar value={percentage} text={`${name}`} />
             </Link>
             <Link to={'/historico'}>
                 <p>Histórico</p>
@@ -39,7 +43,10 @@ const MenuStyle = styled.footer`
         font-style: normal;
         line-height: 22px;
         text-align: center;
-
         color: #52B6FF;
+    }
+
+    a {
+        text-decoration: none;
     }
 `

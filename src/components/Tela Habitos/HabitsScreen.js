@@ -1,21 +1,22 @@
-import Menu from "./Menu";
-import Top from "./Top";
+import Menu from "../Topo e Menu/Menu";
+import Top from "../Topo e Menu/Top";
 import styled from "styled-components";
 import NewHabitBox from './NewHabitBox';
 import { useState, useEffect } from "react";
 import HabitBox from "./HabitBox";
 import { useContext } from "react";
-import UserContext from "../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 import axios from "axios";
 
 export default function HabitsScreen() {
     const { token, image } = useContext(UserContext);
     const [NewHabitBoxStatus, setNewHabitBoxStatus] = useState(false);
+    const [habitList, setHabitList] = useState([]);
     
     function openNewHabitBox(){
         setNewHabitBoxStatus(true);
     }
-
+    
     useEffect(() => {
         const config = {
             headers: {
@@ -28,7 +29,7 @@ export default function HabitsScreen() {
 
         promise.then((res) => {
             const { data } = res;
-            // setArrayHabits([...data]);
+            setHabitList([...data]);
         });
 
         promise.catch((err) => {
@@ -36,6 +37,16 @@ export default function HabitsScreen() {
         });
     }, []);
 
+    function builHabitsList(){
+        if(habitList.length > 0){
+            return habitList.map(habit => {
+                const { id, name, days } = habit;
+                return <HabitBox key={id} id={id} name={name} days={days}/>
+            })
+        } else {
+            return <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+        }
+    }
     return (
         <>
             <Top image={image}/>
@@ -49,9 +60,7 @@ export default function HabitsScreen() {
 
                 <NewHabitBox status={NewHabitBoxStatus} setNewHabitBoxStatus={setNewHabitBoxStatus}/>
                 <HabitsList>
-                    <HabitBox />
-                    <HabitBox />
-                    <HabitBox />
+                    {builHabitsList()}
                 </HabitsList>
             </Content>
             <Menu />

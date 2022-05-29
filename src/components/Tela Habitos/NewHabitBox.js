@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from 'axios';
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 export default function NewHabitBox(props) {
     const { status, setNewHabitBoxStatus } = props;
@@ -8,24 +10,41 @@ export default function NewHabitBox(props) {
     const [name, setName] = useState("");
     const [days, setDays] = useState([]);
     const weekDays = [ "D", "S", "T", "Q", "Q", "S", "S" ];
+    const { token } = useContext(UserContext);
 
     function closeNewHabitBox() {
         setNewHabitBoxStatus(false);
     }
 
-    function sendNewHabit() {
+    function sendNewHabit(event) {
+        event.preventDefault();
+        days.sort((a, b) => a - b);
+
         const newHabit = {
             name: name,
             days: days
         };
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-        const promise = axios.post(URL, newHabit);
+        const promise = axios.post(URL, newHabit, config);
+
+        promise.then(res =>{
+            alert("Enviado");
+        })
+
+        promise.catch(err => {
+            alert(err.message);
+        })
     }
 
     return (
         <>
             <NewHabitBoxStyle status={status}>
-                <NewHabitForm>
+                <NewHabitForm onSubmit={sendNewHabit}>
                     <input
                         type="text"
                         placeholder=' nome do hábito'
@@ -41,7 +60,7 @@ export default function NewHabitBox(props) {
                     </ChoseDaysBox>
                     <Buttons>
                         <p onClick={closeNewHabitBox} >Cancelar</p>
-                        <button onSubmit={sendNewHabit}>Salvar</button>
+                        <button type="submit">Salvar</button>
                     </Buttons>
                 </NewHabitForm>
             </NewHabitBoxStyle>
@@ -117,10 +136,10 @@ function Day(props) {
     function selectedDays(){
         if(!selected){
             setSelected(true);
-            setDays([...days, id+1])
+            setDays([...days, id])
         } else if (selected){
             setSelected(false);
-            setDays(days.filter(r => r !== id+1));
+            setDays(days.filter(r => r !== id));
         }
     }
  

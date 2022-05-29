@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import logo from '../assets/_img/logoLogin.png';
+import logo from '../../assets/_img/logoLogin.png';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -25,7 +25,6 @@ function RegisterForm() {
 
     function register(event) {
         event.preventDefault();
-        console.log(registerData);
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up';
         const promise = axios.post(URL, registerData);
 

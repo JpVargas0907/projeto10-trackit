@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import logo from '../assets/_img/logoLogin.png';
+import logo from '../../assets/_img/logoLogin.png';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useContext } from "react";
-import UserContext from "../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 
 export default function LoginScreen() {
     return (

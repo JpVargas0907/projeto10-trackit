@@ -1,10 +1,34 @@
 import styled from "styled-components";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
+import axios from "axios";
 
-export default function HabitBox() {
+export default function HabitBox(props) {
+    const {id, name, days} = props;
+    const { token } = useContext(UserContext);
+
+    function deleteHabit(){
+        const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const promise = axios.delete(URL, config);
+
+        promise.then(res => {
+            alert("Deletado");
+        })
+
+        promise.catch(err => {
+            alert(err.message);
+        })
+    }
+
     return(
         <BoxStyle>
-            <p>HABITOOOOO</p>
-            <ion-icon name="trash-outline"></ion-icon>
+            <p>{name}</p>
+            <ion-icon onClick={deleteHabit} name="trash-outline"></ion-icon>
             <ChosedDaysBox>
                 <DayBox />
                 <DayBox />
@@ -20,10 +44,11 @@ export default function HabitBox() {
 
 const BoxStyle = styled.div`
     width: 90vw;
-    height: 90px;
+    padding: 10px;
     background: #FFFFFF;
     border-radius: 5px;
     margin-bottom: 10px;
+    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
