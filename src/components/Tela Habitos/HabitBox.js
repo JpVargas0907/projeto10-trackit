@@ -106,6 +106,7 @@ const DayBoxStyle = styled.div`
     justify-content: center;
     width: 30px;
     height: 30px;
+    margin-right: 5px;
 
     background: ${props => props.status ? "#CFCFCF" : "FFFFFF"};
     border: 1px solid #D5D5D5;

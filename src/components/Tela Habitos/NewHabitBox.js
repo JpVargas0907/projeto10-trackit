@@ -107,7 +107,6 @@ const NewHabitForm = styled.form`
 
 const ChoseDaysBox = styled.div`
     display: flex;
-    justify-content: space-between;
     margin-bottom: 10px;
 `
 
@@ -166,6 +165,7 @@ const DayBox = styled.div`
     justify-content: center;
     width: 30px;
     height: 30px;
+    margin-right: 5px;
 
     background: ${props => props.status ? "#CFCFCF" : "FFFFFF"};
     border: 1px solid #D5D5D5;
