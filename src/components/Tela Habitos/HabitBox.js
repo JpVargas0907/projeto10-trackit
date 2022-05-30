@@ -1,42 +1,42 @@
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
 
 export default function HabitBox(props) {
-    const {id, name, days} = props;
+    const { id, name, days } = props;
     const { token } = useContext(UserContext);
+    const weekDays = [ "D", "S", "T", "Q", "Q", "S", "S" ];
 
-    function deleteHabit(){
-        const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
+    function deleteHabit() {
+        if (window.confirm("Você gostaria de deletar esse hábito?") === true) {
+            const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             }
+            const promise = axios.delete(URL, config);
+
+            promise.then(res => {
+                alert("Deletado");
+            })
+
+            promise.catch(err => {
+                alert(err.message);
+            })
         }
-        const promise = axios.delete(URL, config);
-
-        promise.then(res => {
-            alert("Deletado");
-        })
-
-        promise.catch(err => {
-            alert(err.message);
-        })
     }
 
-    return(
+
+    return (
         <BoxStyle>
             <p>{name}</p>
             <ion-icon onClick={deleteHabit} name="trash-outline"></ion-icon>
             <ChosedDaysBox>
-                <DayBox />
-                <DayBox />
-                <DayBox />
-                <DayBox />
-                <DayBox />
-                <DayBox />
-                <DayBox />
+                {weekDays.map((day, index) => {
+                    return <DayBox key={index} id={index} days={days} name={day}/>
+                })}
             </ChosedDaysBox>
         </BoxStyle>
     );
@@ -44,6 +44,7 @@ export default function HabitBox(props) {
 
 const BoxStyle = styled.div`
     width: 90vw;
+    height: 100px;
     padding: 10px;
     background: #FFFFFF;
     border-radius: 5px;
@@ -80,7 +81,26 @@ const ChosedDaysBox = styled.div`
     justify-content: space-between;
 `
 
-const DayBox = styled.div`
+function DayBox(props){
+    const [status, setStatus] = useState(false);
+    const {id, days, name} = props;
+
+    useState(() => {
+        for(let i = 0; i < days.length; i++){
+            if(days[i] === id){
+                setStatus(true);
+            }
+        }
+    }, [])
+
+    return(
+        <DayBoxStyle status={status}>
+            {name}
+        </DayBoxStyle>
+    );
+}
+
+const DayBoxStyle = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;

@@ -9,10 +9,16 @@ import dayjs from "dayjs";
 import TodayHabit from "./TodayHabit";
 
 export default function TodayScreen() {
-    const { token, image, counter, setHabitsQuantity, calcPercentage } = useContext(UserContext);
+    const { token, image, counter, setCounter, setHabitsQuantity, calcPercentage } = useContext(UserContext);
     const [habits, setHabits] = useState([]);
     const now = dayjs();
     let weekday = "";
+
+    function verifyDones(element){
+        if(element === true){
+            setCounter(counter + 1);
+        }
+    }
 
     useEffect(() => {
         const config = {
@@ -36,11 +42,12 @@ export default function TodayScreen() {
 
     function buildHabitsList() {
         setHabitsQuantity(habits.length)
+
         if (habits.length > 0) {
             return habits.map((habit, index) => { 
                 const {id, name, done, currentSequence, highestSequence} = habit;
 
-                return <TodayHabit key={index} id={id} name={name} done={done} currentSequence={currentSequence} highestSequence={highestSequence}/> })
+                return <TodayHabit key={index} id={id} name={name} done={done} currentSequence={currentSequence} highestSequence={highestSequence} verifyDones={verifyDones}/> })
         } else {
             return <p>CARREGANDO...</p>
         }
@@ -69,7 +76,7 @@ export default function TodayScreen() {
     return (
         <>
             <Top image={image}/>
-            <Content>
+            <Content calcPercentage={calcPercentage}>
                 <h2>{showWeekday()}, {now.date()}/{now.month()}</h2>
                 {counter === 0 ? <h3>Nenhum hábito concluído ainda</h3> : <h3>{calcPercentage()}% dos hábitos concluídos</h3>}
                 
@@ -106,7 +113,7 @@ const Content = styled.div`
         width: 90vw;
         font-weight: 400;
         font-size: 18px;
-        color: #BABABA;
+        color: ${props => props.calcPercentage() > 0 ? "#8FC549" : "#BABABA"};
 
         margin-bottom: 20px;
     }

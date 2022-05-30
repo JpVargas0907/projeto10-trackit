@@ -35,7 +35,7 @@ export default function HabitsScreen() {
         promise.catch((err) => {
             alert(err.message);
         });
-    }, []);
+    }, [habitList]);
 
     function builHabitsList(){
         if(habitList.length > 0){

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from '../../assets/_img/logoLogin.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 export default function RegisterScreen() {
@@ -22,6 +22,7 @@ const Container = styled.div`
 `
 
 function RegisterForm() {
+    const navigate = useNavigate();
 
     function register(event) {
         event.preventDefault();
@@ -30,11 +31,14 @@ function RegisterForm() {
 
         promise.then(() => {
             alert("Cadastro efetuado!");
+            navigate("/");
         })
 
         promise.catch(() => {
             alert("Vish deu ruim :( Tente novamente!");
         })
+
+        setRegisterData()
     }
 
     const [registerData, setRegisterData] = useState({

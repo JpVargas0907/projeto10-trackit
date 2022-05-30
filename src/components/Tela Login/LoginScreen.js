@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function LoginScreen() {
     return (
@@ -26,21 +27,26 @@ const Container = styled.div`
 function LoginForm() {
     const navigate = useNavigate();
     const { token, setToken, setImage } = useContext(UserContext);
+    const [ loading, setLoading ] = useState(false);
 
     function login(event) {
         event.preventDefault();
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login';
         const promise = axios.post(URL, loginData);
 
+        setLoading(true);
+
         promise.then((res) => {
             alert("Login Efetuado!");
             setToken(res.data.token);
             setImage(res.data.image);
+            setLoading(false);
             navigate('/hoje');
         })
 
         promise.catch((err) => {
             alert(`Vish deu ruim :( Cadastres-se para logar! ${err.message}`);
+            setLoading(false);
         })
     }
 
@@ -77,7 +83,7 @@ function LoginForm() {
                 onChange={handleForm}
                 value={password}
             />
-            <button type='submit'>Entrar</button>
+            <button type="submit">{loading ? <ThreeDots color="#FFFFFF" height={60} width={60} /> : "Entrar"}</button>
 
             <Link to={'/cadastro'}>
                 <p>Não tem uma conta? Cadastre-se!</p>
@@ -102,7 +108,7 @@ const LoginStyle = styled.form`
         border-radius: 5px;
     }
 
-    button {
+    > button {
         width: 303px;
         height: 45px;
         margin-bottom: 25px;
@@ -114,6 +120,10 @@ const LoginStyle = styled.form`
         color: #FFFFFF;
         font-weight: 400;
         font-size: 20.976px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     p {

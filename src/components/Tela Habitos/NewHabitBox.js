@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import axios from 'axios';
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function NewHabitBox(props) {
     const { status, setNewHabitBoxStatus } = props;
 
     const [name, setName] = useState("");
     const [days, setDays] = useState([]);
+    const [ loading, setLoading ] = useState(false);
     const weekDays = [ "D", "S", "T", "Q", "Q", "S", "S" ];
     const { token } = useContext(UserContext);
 
@@ -32,11 +34,16 @@ export default function NewHabitBox(props) {
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
         const promise = axios.post(URL, newHabit, config);
 
+        setLoading(true);
+
         promise.then(res =>{
-            alert("Enviado");
+            alert("Novo hábito cadastrado com sucesso! ");
+            setLoading(false);
+            closeNewHabitBox();
         })
 
         promise.catch(err => {
+            setLoading(false);
             alert(err.message);
         })
     }
@@ -60,7 +67,7 @@ export default function NewHabitBox(props) {
                     </ChoseDaysBox>
                     <Buttons>
                         <p onClick={closeNewHabitBox} >Cancelar</p>
-                        <button type="submit">Salvar</button>
+                        <button type="submit">{loading ? <ThreeDots color="#FFFFFF" height={60} width={60} /> : "Salvar"}</button>
                     </Buttons>
                 </NewHabitForm>
             </NewHabitBoxStyle>
@@ -70,7 +77,7 @@ export default function NewHabitBox(props) {
 
 const NewHabitBoxStyle = styled.div`
     width: 90vw;
-    height: 180px;
+    padding: 10px;
     background: #FFFFFF;
     border-radius: 5px;
     display: ${props => props.status ? "flex" : "none"};
@@ -100,12 +107,13 @@ const NewHabitForm = styled.form`
 const ChoseDaysBox = styled.div`
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
 `
 
 const Buttons = styled.div`
     display: flex;
     align-items: center;
-    position: absolute;
+    justify-content: end;
     right: 16px;
     bottom: 15px;
 
@@ -126,6 +134,9 @@ const Buttons = styled.div`
         font-weight: 400;
         font-size: 16px;
         color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 `
 
