@@ -9,10 +9,6 @@ export default function TodayHabit(props) {
     const { token, counter, setCounter } = useContext(UserContext);
     const [status, setStatus] = useState(done);
 
-    useEffect(() => {
-        verifyDones(done);
-    }, [id]);
-
     function checkHabit() {
         const config = {
             headers: {

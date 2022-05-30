@@ -14,12 +14,6 @@ export default function TodayScreen() {
     const now = dayjs();
     let weekday = "";
 
-    function verifyDones(element){
-        if(element === true){
-            setCounter(counter + 1);
-        }
-    }
-
     useEffect(() => {
         const config = {
             headers: {
@@ -47,7 +41,7 @@ export default function TodayScreen() {
             return habits.map((habit, index) => { 
                 const {id, name, done, currentSequence, highestSequence} = habit;
 
-                return <TodayHabit key={index} id={id} name={name} done={done} currentSequence={currentSequence} highestSequence={highestSequence} verifyDones={verifyDones}/> })
+                return <TodayHabit key={index} id={id} name={name} done={done} currentSequence={currentSequence} highestSequence={highestSequence} /> })
         } else {
             return <p>CARREGANDO...</p>
         }

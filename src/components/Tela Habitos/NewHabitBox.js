@@ -84,6 +84,7 @@ const NewHabitBoxStyle = styled.div`
     flex-direction: column;
     align-items: center;
     position: relative;
+    box-sizing: border-box;
 `
 const NewHabitForm = styled.form`
     width: 90%;
