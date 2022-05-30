@@ -78,7 +78,6 @@ const BoxStyle = styled.div`
 const ChosedDaysBox = styled.div`
     width: 90%;
     display: flex;
-    justify-content: space-between;
 `
 
 function DayBox(props){
