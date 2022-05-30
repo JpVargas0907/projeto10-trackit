@@ -14,7 +14,8 @@ function App() {
   const [habitsQuantity, setHabitsQuantity] = useState(0);
 
   function calcPercentage(){
-    return (counter / habitsQuantity) * 100;
+      const percentage = (counter / habitsQuantity) * 100;
+    return Math.round(percentage);
   }
 
   return (

@@ -5,9 +5,13 @@ import axios from "axios";
 import check from "../../assets/_img/check.png";
 
 export default function TodayHabit(props) {
-    const { id, name, done, currentSequence, highestSequence, verifyDones } = props;
+    const { id, name, done, currentSequence, highestSequence, habits} = props;
     const { token, counter, setCounter } = useContext(UserContext);
     const [status, setStatus] = useState(done);
+
+    useEffect(() => {
+        setCounter(habits.length);
+    }, [habits]);
 
     function checkHabit() {
         const config = {

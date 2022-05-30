@@ -13,6 +13,7 @@ export default function TodayScreen() {
     const [habits, setHabits] = useState([]);
     const now = dayjs();
     let weekday = "";
+    const [newArray, setNewArray] = useState([]);
 
     useEffect(() => {
         const config = {
@@ -27,7 +28,9 @@ export default function TodayScreen() {
         promise.then((res) => {
             const { data } = res;
             setHabits([...data]);
-        });
+            setNewArray(habits.filter(r => r.done === true));
+        }
+        );
 
         promise.catch((err) => {
             alert(err.message);
@@ -38,10 +41,11 @@ export default function TodayScreen() {
         setHabitsQuantity(habits.length)
 
         if (habits.length > 0) {
-            return habits.map((habit, index) => { 
-                const {id, name, done, currentSequence, highestSequence} = habit;
+            return habits.map((habit, index) => {
+                const { id, name, done, currentSequence, highestSequence } = habit;
 
-                return <TodayHabit key={index} id={id} name={name} done={done} currentSequence={currentSequence} highestSequence={highestSequence} /> })
+                return <TodayHabit key={index} id={id} name={name} done={done} currentSequence={currentSequence} highestSequence={highestSequence} habits={newArray}/>
+            })
         } else {
             return <p>CARREGANDO...</p>
         }
@@ -69,11 +73,11 @@ export default function TodayScreen() {
 
     return (
         <>
-            <Top image={image}/>
+            <Top image={image} />
             <Content calcPercentage={calcPercentage}>
                 <h2>{showWeekday()}, {now.date()}/{now.month()}</h2>
                 {counter === 0 ? <h3>Nenhum hábito concluído ainda</h3> : <h3>{calcPercentage()}% dos hábitos concluídos</h3>}
-                
+
                 <HabitsList>
                     {buildHabitsList()}
                 </HabitsList>
