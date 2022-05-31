@@ -60,7 +60,7 @@ export default function TodayHabit(props) {
                 </div>
                 <div>
                     <p className="paragraph">Seu recorde: </p>
-                    <HighestSequenceStyle currentSequence={currentSequence} highestSequence={highestSequence}> { highestSequence} dias
+                    <HighestSequenceStyle currentSequence={currentSequence} highestSequence={highestSequence} done={status}> { highestSequence} dias
                     </HighestSequenceStyle>
                 </div>
             </Info>
@@ -74,7 +74,7 @@ export default function TodayHabit(props) {
 const HabitBox = styled.div`
     position: relative;
     width: 90%;
-    height: 100px;
+    height: 100%;
     margin-bottom: 10px;
     border-radius: 5px;
     background-color: #FFFFFF;
@@ -82,6 +82,7 @@ const HabitBox = styled.div`
     align-items: center;
     padding: 10px;
     box-sizing: border-box;
+    margin-bottom: 10px;
 `
 
 const Info = styled.div`
@@ -112,13 +113,13 @@ const CurrentSequenceStyle = styled.p`
         font-weight: 400;
         font-size: 13px;
         line-height: 16px;
-        color: ${props => (props.currentSequence === props.highestSequence || props.done === true) ? "#8FC549" : "#666666"};
+        color: ${props => (props.currentSequence === props.highestSequence && props.done === true) || (props.done === true) ? "#8FC549" : "#666666"};
 `
 const HighestSequenceStyle = styled.p`
         font-weight: 400;
         font-size: 13px;
         line-height: 16px;
-        color: ${props => (props.currentSequence === props.highestSequence) ? "#8FC549" : "#666666"};
+        color: ${props => (props.currentSequence === props.highestSequence && props.done === true) ? "#8FC549" : "#666666"};
 `
 
 const CheckBox = styled.div`

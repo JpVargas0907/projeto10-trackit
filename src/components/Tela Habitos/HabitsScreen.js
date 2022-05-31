@@ -70,9 +70,9 @@ export default function HabitsScreen() {
 
 const Content = styled.div`
     width: 100vw;
-    height: 100vh;
+    height: 500vh;
     margin-top: 70px;
-    margin-bottom: 70px;
+    margin-bottom: 0px;
     background: #E5E5E5;
     
     display: flex;
@@ -125,4 +125,5 @@ const AddButton = styled.div`
 const HabitsList = styled.div`
     width: 90vw;
     margin-top: 20px;
+    margin-bottom: 110px;
 `

@@ -30,12 +30,11 @@ function RegisterForm() {
         const promise = axios.post(URL, registerData);
 
         promise.then(() => {
-            alert("Cadastro efetuado!");
             navigate("/");
         })
 
         promise.catch(() => {
-            alert("Vish deu ruim :( Tente novamente!");
+            alert("Preenchido de forma incorreta ou usuário já foi cadastrado.");
         })
 
         setRegisterData()

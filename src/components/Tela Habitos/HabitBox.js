@@ -19,7 +19,7 @@ export default function HabitBox(props) {
             const promise = axios.delete(URL, config);
 
             promise.then(res => {
-                alert("Deletado");
+                alert("Habito Deletado");
             })
 
             promise.catch(err => {

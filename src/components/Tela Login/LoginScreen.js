@@ -37,7 +37,6 @@ function LoginForm() {
         setLoading(true);
 
         promise.then((res) => {
-            alert("Login Efetuado!");
             setToken(res.data.token);
             setImage(res.data.image);
             setLoading(false);
@@ -45,7 +44,7 @@ function LoginForm() {
         })
 
         promise.catch((err) => {
-            alert(`Vish deu ruim :( Cadastres-se para logar! ${err.message}`);
+            alert(`Vish deu ruim :( Cadastres-se ou tente novamente!`);
             setLoading(false);
         })
     }

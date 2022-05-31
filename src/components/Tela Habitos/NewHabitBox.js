@@ -10,9 +10,10 @@ export default function NewHabitBox(props) {
 
     const [name, setName] = useState("");
     const [days, setDays] = useState([]);
-    const [ loading, setLoading ] = useState(false);
-    const weekDays = [ "D", "S", "T", "Q", "Q", "S", "S" ];
+    const [loading, setLoading] = useState(false);
+    const weekDays = ["D", "S", "T", "Q", "Q", "S", "S"];
     const { token } = useContext(UserContext);
+    const [dayCounter, setDayCounter] = useState(0);
 
     function closeNewHabitBox() {
         setNewHabitBoxStatus(false);
@@ -20,32 +21,38 @@ export default function NewHabitBox(props) {
 
     function sendNewHabit(event) {
         event.preventDefault();
-        days.sort((a, b) => a - b);
+        
+        if (dayCounter !== 0) {
+            days.sort((a, b) => a - b);
 
-        const newHabit = {
-            name: name,
-            days: days
-        };
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
+            const newHabit = {
+                name: name,
+                days: days
+            };
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             }
+            const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+            const promise = axios.post(URL, newHabit, config);
+
+            setLoading(true);
+
+            promise.then(res => {
+                setLoading(false);
+                closeNewHabitBox();
+                alert("Novo habito cadastrado com sucesso!");
+            })
+
+            promise.catch(err => {
+                setLoading(false);
+                alert("Não foi possível cadastrar o seu novo hábito. Tente novamente!");
+            })
+        } else {
+            alert("Você esqueceu de selecionar os dias! :(");
         }
-        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-        const promise = axios.post(URL, newHabit, config);
 
-        setLoading(true);
-
-        promise.then(res =>{
-            alert("Novo hábito cadastrado com sucesso! ");
-            setLoading(false);
-            closeNewHabitBox();
-        })
-
-        promise.catch(err => {
-            setLoading(false);
-            alert(err.message);
-        })
     }
 
     return (
@@ -56,13 +63,13 @@ export default function NewHabitBox(props) {
                         type="text"
                         placeholder=' nome do hábito'
                         required
-                        onChange={(e) => 
-                          setName(e.target.value)
+                        onChange={(e) =>
+                            setName(e.target.value)
                         }
                     />
                     <ChoseDaysBox>
                         {weekDays.map((day, index) => {
-                            return <Day key={index} id={index} day={day} days={days} setDays={setDays}/>
+                            return <Day key={index} id={index} day={day} days={days} setDays={setDays} setDayCounter={setDayCounter} dayCounter={dayCounter} />
                         })}
                     </ChoseDaysBox>
                     <Buttons>
@@ -141,19 +148,21 @@ const Buttons = styled.div`
 `
 
 function Day(props) {
-    const { id, day, days, setDays } = props;
+    const { id, day, days, setDays, setDayCounter, dayCounter } = props;
     const [selected, setSelected] = useState(false);
 
-    function selectedDays(){
-        if(!selected){
+    function selectedDays() {
+        if (!selected) {
             setSelected(true);
             setDays([...days, id])
-        } else if (selected){
+            setDayCounter(dayCounter + 1);
+        } else if (selected) {
             setSelected(false);
             setDays(days.filter(r => r !== id));
+            setDayCounter(dayCounter - 1);
         }
     }
- 
+
     return (
         <DayBox onClick={selectedDays} status={selected}>{day}</DayBox>
     );
