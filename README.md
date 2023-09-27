@@ -25,3 +25,5 @@ Após isso a aplicação será aberta na porta 3000, http://localhost:3000. Agor
 ## 🛠️ Construído com
 
 Para o desenvolvimento desse projeto utilizei React js como principal tecnologia.
+
+Você também pode verificar o projeto trackit em produção no seguinte link: https://projeto10-trackit-ivory.vercel.app/
